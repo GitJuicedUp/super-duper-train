@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": {
+        "EXA_API_KEY": "${input:exaApiKey}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "exaApiKey",
+      "type": "promptString",
+      "description": "Exa API key (https://exa.ai/)",
+      "password": true
+    }
+  ]
+}

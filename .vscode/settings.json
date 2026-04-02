@@ -1,5 +1,8 @@
 {
   "github.copilot.enable": {
     "*": true
-  }
+  },
+  "github.copilot.chat.defaultModel": "gemini-3-pro-preview",
+  "chat.agent.enabled": true,
+  "github.copilot.nextEditSuggestions.enabled": true
 }
