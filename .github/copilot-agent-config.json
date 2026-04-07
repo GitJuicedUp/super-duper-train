@@ -1,0 +1,72 @@
+{
+  "$schema": "https://raw.githubusercontent.com/github/copilot-agent-schema/main/schema.json",
+  "agentIntegration": {
+    "name": "JUICEDUP-Agent-Flow",
+    "version": "1.0.0",
+    "enterpriseName": "gitjuicedup",
+    "environment": "github-enterprise-cloud",
+    "description": "Automated workflow to parse the Juiced Up V1.0 launch set (cards.csv) and generate codebase components."
+  },
+  "dataIngestion": {
+    "sourceFile": "cards.csv",
+    "format": "csv",
+    "hasHeaderRow": true,
+    "schemaMapping": {
+      "releaseOrder": "Column 0",
+      "cardId": "Column 1",
+      "title": "Column 2",
+      "subtitle": "Column 3",
+      "baseOrFoil": "Column 4",
+      "rarity": "Column 5",
+      "category": "Column 6",
+      "tier": "Column 7",
+      "pullRateStandard": "Column 8",
+      "pullRatePremium": "Column 9",
+      "acquisitionMethod": "Column 10",
+      "pool": "Column 11",
+      "statBoost": "Column 12",
+      "relatedCards": "Column 13"
+    }
+  },
+  "agentTasks": [
+    {
+      "step": 1,
+      "taskName": "ReadCardData",
+      "action": "extract_csv_records",
+      "strictMode": true
+    },
+    {
+      "step": 2,
+      "taskName": "GenerateDatabaseModels",
+      "action": "generate_code",
+      "context": "Use the extracted CSV records to generate TypeScript Prisma models for the 27-card launch set.",
+      "outputTarget": "src/prisma/schema.prisma"
+    },
+    {
+      "step": 3,
+      "taskName": "GenerateAPIEndpoints",
+      "action": "generate_code",
+      "context": "Create RESTful GET endpoints to fetch cards by ID, Rarity, and Category.",
+      "outputTarget": "src/routes/cards.ts"
+    },
+    {
+      "step": 4,
+      "taskName": "PushToEnterprise",
+      "action": "create_pull_request",
+      "prConfig": {
+        "title": "feat(cards): auto-generated Juiced Up V1.0 card models",
+        "baseBranch": "main",
+        "draft": false
+      }
+    }
+  ],
+  "security": {
+    "requireApprovalOnPR": true,
+    "enterprisePermissions": [
+      "repo:read",
+      "repo:write",
+      "workflow:execute"
+    ],
+    "enterpriseScope": "gitjuicedup"
+  }
+}

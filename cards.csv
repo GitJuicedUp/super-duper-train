@@ -1,0 +1,28 @@
+releaseOrder,cardId,title,subtitle,baseOrFoil,rarity,category,tier,pullRateStandard,pullRatePremium,acquisitionMethod,pool,statBoost,relatedCards
+1,JU-001,Citrus Surge,The Awakening,Base,Common,Juice,1,25.00,15.00,Pack,Core,+5 Energy,JU-002
+2,JU-002,Citrus Surge,The Awakening,Foil,Uncommon,Juice,1,10.00,8.00,Pack,Core,+10 Energy,JU-001
+3,JU-003,Mango Madness,Tropical Fury,Base,Common,Juice,1,25.00,15.00,Pack,Core,+5 Speed,JU-004
+4,JU-004,Mango Madness,Tropical Fury,Foil,Uncommon,Juice,1,10.00,8.00,Pack,Core,+10 Speed,JU-003
+5,JU-005,Berry Blast,Purple Reign,Base,Common,Boost,1,20.00,12.00,Pack,Core,+5 Strength,JU-006
+6,JU-006,Berry Blast,Purple Reign,Foil,Uncommon,Boost,1,8.00,6.00,Pack,Core,+12 Strength,JU-005
+7,JU-007,Power Squeeze,Maximum Output,Base,Rare,Power,2,8.00,5.00,Pack,Power,+20 Attack,JU-008
+8,JU-008,Power Squeeze,Maximum Output,Foil,Rare,Power,2,4.00,3.00,Pack,Power,+25 Attack,JU-007
+9,JU-009,Defense Drop,Iron Shield,Base,Rare,Defense,2,8.00,5.00,Pack,Power,+20 Defense,JU-010
+10,JU-010,Defense Drop,Iron Shield,Foil,Rare,Defense,2,4.00,3.00,Pack,Power,+25 Defense,JU-009
+11,JU-011,Hydration Hero,Liquid Legend,Base,Rare,Recovery,2,8.00,5.00,Pack,Power,+20 Recovery,JU-012
+12,JU-012,Hydration Hero,Liquid Legend,Foil,Rare,Recovery,2,4.00,3.00,Pack,Power,+30 Recovery,JU-011
+13,JU-013,Electro Edge,Charged Up,Base,Epic,Power,3,3.00,2.00,Pack,Elite,+40 Attack,JU-014
+14,JU-014,Electro Edge,Charged Up,Foil,Epic,Power,3,1.50,1.00,Pack,Elite,+50 Attack,JU-013
+15,JU-015,Velocity Venom,Speed Demon,Base,Epic,Boost,3,3.00,2.00,Pack,Elite,+40 Speed,JU-016
+16,JU-016,Velocity Venom,Speed Demon,Foil,Epic,Boost,3,1.50,1.00,Pack,Elite,+55 Speed,JU-015
+17,JU-017,Fortress Fuel,Unbreakable,Base,Epic,Defense,3,3.00,2.00,Pack,Elite,+40 Defense,JU-018
+18,JU-018,Fortress Fuel,Unbreakable,Foil,Epic,Defense,3,1.50,1.00,Pack,Elite,+50 Defense,JU-017
+19,JU-019,Phoenix Blend,Rise Again,Base,Epic,Recovery,3,3.00,2.00,Pack,Elite,+40 Recovery,JU-020
+20,JU-020,Phoenix Blend,Rise Again,Foil,Epic,Recovery,3,1.50,1.00,Pack,Elite,+60 Recovery,JU-019
+21,JU-021,Apex Elixir,The Pinnacle,Base,Legendary,Power,4,1.00,0.75,Pack,Legendary,+80 All Stats,JU-022
+22,JU-022,Apex Elixir,The Pinnacle,Foil,Legendary,Power,4,0.50,0.25,Pack,Legendary,+100 All Stats,JU-021
+23,JU-023,Golden Squeeze,Pure Gold,Base,Legendary,Boost,4,1.00,0.75,Pack,Legendary,+80 Speed,JU-024
+24,JU-024,Golden Squeeze,Pure Gold,Foil,Legendary,Boost,4,0.50,0.25,Pack,Legendary,+100 Speed,JU-023
+25,JU-025,Omega Drop,Final Form,Base,Legendary,Power,4,1.00,0.75,Pack,Legendary,+80 Attack,JU-026
+26,JU-026,Omega Drop,Final Form,Foil,Legendary,Power,4,0.50,0.25,Pack,Legendary,+100 Attack,JU-025
+27,JU-027,Juicebot Prime,The Original,Foil,Legendary,Special,4,0.10,0.05,Special Event,Legendary,+150 All Stats,

@@ -1,0 +1,76 @@
+import { PrismaClient } from "@prisma/client";
+import * as fs from "fs";
+import * as path from "path";
+
+const prisma = new PrismaClient();
+
+interface CardRow {
+  releaseOrder: number;
+  cardId: string;
+  title: string;
+  subtitle: string;
+  baseOrFoil: string;
+  rarity: string;
+  category: string;
+  tier: number;
+  pullRateStandard: number;
+  pullRatePremium: number;
+  acquisitionMethod: string;
+  pool: string;
+  statBoost: string;
+  relatedCards: string | null;
+}
+
+function parseCsv(filePath: string): CardRow[] {
+  const content = fs.readFileSync(filePath, "utf-8");
+  const lines = content.trim().split("\n");
+  // Skip header row
+  const rows = lines.slice(1);
+
+  return rows.map((line) => {
+    const cols = line.split(",");
+    return {
+      releaseOrder: parseInt(cols[0], 10),
+      cardId: cols[1],
+      title: cols[2],
+      subtitle: cols[3],
+      baseOrFoil: cols[4],
+      rarity: cols[5],
+      category: cols[6],
+      tier: parseInt(cols[7], 10),
+      pullRateStandard: parseFloat(cols[8]),
+      pullRatePremium: parseFloat(cols[9]),
+      acquisitionMethod: cols[10],
+      pool: cols[11],
+      statBoost: cols[12],
+      relatedCards: cols[13]?.trim() || null,
+    };
+  });
+}
+
+async function main() {
+  const csvPath = path.resolve(__dirname, "../../cards.csv");
+  const cards = parseCsv(csvPath);
+
+  console.log(`Seeding ${cards.length} cards from cards.csv...`);
+
+  for (const card of cards) {
+    await prisma.card.upsert({
+      where: { cardId: card.cardId },
+      update: card,
+      create: card,
+    });
+    console.log(`  ✓ ${card.cardId} — ${card.title} (${card.rarity})`);
+  }
+
+  console.log("Seed complete.");
+}
+
+main()
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
