@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  id                String  @id @default(cuid())
+  releaseOrder      Int     @unique
+  cardId            String  @unique
+  title             String
+  subtitle          String
+  baseOrFoil        String
+  rarity            String
+  category          String
+  tier              Int
+  pullRateStandard  Float
+  pullRatePremium   Float
+  acquisitionMethod String
+  pool              String
+  statBoost         String
+  relatedCards      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rarity])
+  @@index([category])
+  @@index([tier])
+}
