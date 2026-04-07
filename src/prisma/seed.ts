@@ -21,6 +21,34 @@ interface CardRow {
   relatedCards: string | null;
 }
 
+/**
+ * Minimal RFC 4180-compliant CSV parser that handles quoted fields containing commas.
+ */
+function parseCsvLine(line: string): string[] {
+  const fields: string[] = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === "," && !inQuotes) {
+      fields.push(current);
+      current = "";
+    } else {
+      current += ch;
+    }
+  }
+  fields.push(current);
+  return fields;
+}
+
 function parseCsv(filePath: string): CardRow[] {
   const content = fs.readFileSync(filePath, "utf-8");
   const lines = content.trim().split("\n");
@@ -28,7 +56,7 @@ function parseCsv(filePath: string): CardRow[] {
   const rows = lines.slice(1);
 
   return rows.map((line) => {
-    const cols = line.split(",");
+    const cols = parseCsvLine(line);
     return {
       releaseOrder: parseInt(cols[0], 10),
       cardId: cols[1],
@@ -54,14 +82,16 @@ async function main() {
 
   console.log(`Seeding ${cards.length} cards from cards.csv...`);
 
-  for (const card of cards) {
-    await prisma.card.upsert({
-      where: { cardId: card.cardId },
-      update: card,
-      create: card,
-    });
-    console.log(`  ✓ ${card.cardId} — ${card.title} (${card.rarity})`);
-  }
+  await Promise.all(
+    cards.map(async (card) => {
+      await prisma.card.upsert({
+        where: { cardId: card.cardId },
+        update: card,
+        create: card,
+      });
+      console.log(`  ✓ ${card.cardId} — ${card.title} (${card.rarity})`);
+    })
+  );
 
   console.log("Seed complete.");
 }
