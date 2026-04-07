@@ -1,0 +1,51 @@
+name: JUICEDUP Enterprise Agent Flow
+
+# Fixes the trigger to watch the 'main' branch for CSV updates
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'cards.csv'
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+
+jobs:
+  run-juicedup-agent:
+    name: Run Copilot Agent Integration
+    runs-on: ubuntu-latest
+
+    # Enterprise-level permissions required to create PRs and write code
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Main Branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npm run db:generate
+
+      - name: Run Database Migrations
+        run: npm run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Seed Database from cards.csv
+        run: npm run db:seed
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Load Juiced Up Agent Config
+        id: load_config
+        run: echo "Initiating gitjuicedup agent flow..."

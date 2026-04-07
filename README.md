@@ -89,6 +89,66 @@ Once set up, GitHub Copilot with Gemini 3.1 Pro Preview will:
 - Run multi-step agentic tasks (edit, test, fix) in **Agent mode**
 - Search external documentation and the web via the connected **MCP server**
 
+## Juicebot Card Generator
+
+The card generator reads `cards.csv` (the 27-card **Juiced Up V1.0** launch set) and exposes a typed REST API backed by a Prisma-managed SQLite database.
+
+### Card data (`cards.csv`)
+
+Each row represents one card in the launch set. Columns:
+
+| Column | Field | Description |
+|--------|-------|-------------|
+| 0 | `releaseOrder` | Numeric release sequence |
+| 1 | `cardId` | Unique card identifier (e.g. `JU-001`) |
+| 2 | `title` | Card name |
+| 3 | `subtitle` | Flavour subtitle |
+| 4 | `baseOrFoil` | `Base` or `Foil` variant |
+| 5 | `rarity` | Common / Uncommon / Rare / Epic / Legendary |
+| 6 | `category` | Juice / Boost / Power / Defense / Recovery / Special |
+| 7 | `tier` | 1–4 power tier |
+| 8 | `pullRateStandard` | Pull rate % in standard packs |
+| 9 | `pullRatePremium` | Pull rate % in premium packs |
+| 10 | `acquisitionMethod` | How the card is obtained |
+| 11 | `pool` | Card pool (Core / Power / Elite / Legendary) |
+| 12 | `statBoost` | Stat bonus granted by the card |
+| 13 | `relatedCards` | Related card ID(s) |
+
+### Running locally
+
+```bash
+# Install dependencies
+npm install
+
+# Generate Prisma client
+npm run db:generate
+
+# Apply database migrations
+npm run db:migrate
+
+# Seed the database from cards.csv
+npm run db:seed
+
+# Start the development server
+npm run dev
+```
+
+The API will be available at `http://localhost:3000`.
+
+### API Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/health` | Health check |
+| `GET` | `/api/cards` | List all cards |
+| `GET` | `/api/cards/:id` | Get card by ID (e.g. `JU-001`) |
+| `GET` | `/api/cards/rarity/:rarity` | Filter by rarity |
+| `GET` | `/api/cards/category/:category` | Filter by category |
+
+### GitHub Actions workflow
+
+The `.github/workflows/juicedup-agent-flow.yml` workflow automatically re-seeds the database whenever `cards.csv` is updated on `main`. It can also be triggered manually from the **Actions** tab.
+
 ## Contributing
 
 Feel free to open issues or pull requests to improve this repository.
