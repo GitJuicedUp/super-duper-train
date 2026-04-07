@@ -12,8 +12,10 @@ app.get("/health", (_req, res) => {
 
 app.use("/api/cards", cardRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Juicebot Card API running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Juicebot Card API running on port ${PORT}`);
+  });
+}
 
 export default app;
